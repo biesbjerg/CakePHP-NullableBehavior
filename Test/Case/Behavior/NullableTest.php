@@ -1,7 +1,7 @@
 <?php
 
-App::uses( 'Model', 'Model' );
-App::uses( 'AppModel', 'Model' );
+App::uses('Model', 'Model');
+App::uses('AppModel', 'Model');
 
 /**
  * Article class
@@ -10,9 +10,9 @@ App::uses( 'AppModel', 'Model' );
  * @subpackage    cake.tests.cases.libs.model
  */
 class Article extends CakeTestModel {
-  public $name = 'Article';
-  public $actsAs = array( 'Nullable.Nullable' );
-  public $belongsTo = array( 'Author' );
+	public $name = 'Article';
+	public $actsAs = array('Nullable.Nullable');
+	public $belongsTo = array('Author');
 }
 
 /**
@@ -22,106 +22,103 @@ class Article extends CakeTestModel {
  * @subpackage    cake.tests.cases.libs.model
  */
 class Author extends CakeTestModel {
-  public $name = 'Author';
-  public $actsAs = array( 'Nullable.Nullable' );
-  public $hasMany = array( 'Article' );
+	public $name = 'Author';
+	public $actsAs = array('Nullable.Nullable');
+	public $hasMany = array('Article');
 }
 
 /**
  * AuditableBehavior test class.
  */
 class NullableBehaviorTest extends CakeTestCase {
-  /**
-   * Fixtures associated with this test case
-   *
-   * @var array
-   * @access public
-   */
+	/**
+	 * Fixtures associated with this test case
+	 *
+	 * @var array
+	 * @access public
+	 */
 	public $fixtures = array(
 		'plugin.nullable.article',
-    'plugin.nullable.author',
+		'plugin.nullable.author'
 	);
-  
-  /**
-   * Method executed before each test
-   *
-   * @access public
-   */
+
+	/**
+	 * Method executed before each test
+	 *
+	 * @access public
+	 */
 	public function startTest() {
-		$this->Article = ClassRegistry::init( 'Article' );
+		$this->Article = ClassRegistry::init('Article');
 	}
-  
-  /**
-   * Method executed after each test
-   *
-   * @access public
-   */
+
+	/**
+	 * Method executed after each test
+	 *
+	 * @access public
+	 */
 	public function endTest() {
-		unset( $this->Article );
+		unset($this->Article);
 
 		ClassRegistry::flush();
 	}
-  
-  /**
-   * Test the action of creating a new record.
-   *
-   * @todo  Test HABTM save
-   */
-  public function testCreate() {
-    $new_article = array(
-      'Article' => array(
-        'author_id' => '',
-        'title'     => 'First Test Article', 
-        'body'      => 'First Test Article Body', 
-        'published' => 'N', 
-      ),
-    );
 
-    $this->Article->Behaviors->detach( 'Nullable.Nullable' );
-    
-    $this->Article->save( $new_article );
-    $article = $this->Article->find(
-      'first',
-      array(
-        'recursive' => -1,
-        'conditions' => array( 'Article.id' => $this->Article->getLastInsertId() ),
-      )
-    );
+	/**
+	 * Test the action of creating a new record.
+	 *
+	 * @todo  Test HABTM save
+	 */
+	public function testCreate() {
+		$new_article = array(
+			'Article' => array(
+				'author_id' => '',
+				'title' => 'First Test Article',
+				'body' => 'First Test Article Body',
+				'published' => 'N'
+			)
+		);
 
-    # Verify that the article record.
-    $this->assertEqual( null, $article['Article']['author_id'] );
-    $this->assertEqual( 'First Test Article', $article['Article']['title'] );
-  }
+		$this->Article->Behaviors->detach('Nullable.Nullable');
 
-  /**
-   * Test editing an existing record.
-   *
-   * @todo  Test change to ignored field
-   * @todo  Test HABTM save
-   */
-  public function testEdit() {
-    $article = $this->Article->find(
-      'first',
-      array(
-        'recursive' => -1,
-        'conditions' => array( 'Article.author_id' => 3 ),
-      )
-    );
+		$this->Article->save($new_article);
+		$article = $this->Article->find('first', array(
+			'recursive' => -1,
+			'conditions' => array(
+				'Article.id' => $this->Article->getLastInsertId()
+			)
+		));
 
-    $article['Article']['author_id'] = '';
+		# Verify that the article record.
+		$this->assertEqual(null, $article['Article']['author_id']);
+		$this->assertEqual('First Test Article', $article['Article']['title']);
+	}
 
-    $this->Article->id = $article['Article']['id'];
-    $this->Article->save( $article );
+	/**
+	 * Test editing an existing record.
+	 *
+	 * @todo  Test change to ignored field
+	 * @todo  Test HABTM save
+	 */
+	public function testEdit() {
+		$article = $this->Article->find('first', array(
+			'recursive' => -1,
+			'conditions' => array(
+				'Article.author_id' => 3
+			)
+		));
 
-    $article = $this->Article->find(
-      'first',
-      array(
-        'recursive' => -1,
-        'conditions' => array( 'Article.id' => $this->Article->id ),
-      )
-    );
+		$article['Article']['author_id'] = '';
 
-    # Verify that the article record.
-    $this->assertEqual( null, $article['Article']['author_id'] );
-  }
+		$this->Article->id = $article['Article']['id'];
+		$this->Article->save($article);
+
+		$article = $this->Article->find('first', array(
+			'recursive' => -1,
+			'conditions' => array(
+				'Article.id' => $this->Article->id
+			)
+		));
+
+		# Verify that the article record.
+		$this->assertEqual(null, $article['Article']['author_id']);
+	}
 }
