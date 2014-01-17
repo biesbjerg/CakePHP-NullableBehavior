@@ -1,0 +1,20 @@
+{
+	"name": "redd/cakephp-nullable",
+	"type": "cakephp-plugin",
+	"description": "CakePHP Nullable Behavior",
+	"keywords": ["cakephp","nullable"],
+	"homepage": "https://github.com/redd/CakePHP-NullableBehavior",
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "Rob Wilkerson",
+			"homepage": "http://robwilkerson.org/"
+		}
+	],
+	"require": {
+		"composer/installers": "*"
+	},
+	"extra": {
+		"installer-name": "Nullable"
+	}
+}
