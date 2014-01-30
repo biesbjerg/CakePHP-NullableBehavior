@@ -9,15 +9,16 @@ class NullableBehavior extends ModelBehavior {
  * with NULL values. This is helpful as hell when foreign key values are nullable lest you
  * get lots of key constraint errors.
  *
- * @param model The model object to be saved.
+ * @param $Model The model object to be saved.
+ * @param $options array
  * @return boolean Success
  */
-	function beforeSave(Model $model, $options = array()) {
-		$schema = $model->schema();
+	function beforeSave(Model $Model, $options = array()) {
+		$schema = $Model->schema();
 		foreach ($schema as $field => $metadata) {
-			if (isset($model->data[$model->alias][$field]) && $metadata['null']) {
-				if ($model->data[$model->alias][$field] === '') {
-					$model->data[$model->alias][$field] = null;
+			if (isset($Model->data[$Model->alias][$field]) && $metadata['null']) {
+				if ($Model->data[$Model->alias][$field] === '') {
+					$Model->data[$Model->alias][$field] = null;
 				}
 			}
 		}
