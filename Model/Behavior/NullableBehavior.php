@@ -16,7 +16,7 @@ class NullableBehavior extends ModelBehavior {
 	function beforeSave(Model $Model, $options = array()) {
 		$schema = $Model->schema();
 		foreach ($schema as $field => $metadata) {
-			if (isset($Model->data[$Model->alias][$field]) && $metadata['null']) {
+			if (isset($Model->data[$Model->alias][$field]) && !empty($metadata['null'])) {
 				if ($Model->data[$Model->alias][$field] === '') {
 					$Model->data[$Model->alias][$field] = null;
 				}
