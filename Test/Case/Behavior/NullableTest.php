@@ -1,5 +1,4 @@
 <?php
-
 App::uses('Model', 'Model');
 App::uses('AppModel', 'Model');
 
@@ -28,45 +27,46 @@ class Author extends CakeTestModel {
 }
 
 /**
- * AuditableBehavior test class.
+ * NullableBehavior test class.
  */
 class NullableBehaviorTest extends CakeTestCase {
-	/**
-	 * Fixtures associated with this test case
-	 *
-	 * @var array
-	 * @access public
-	 */
+
+/**
+ * Fixtures associated with this test case
+ *
+ * @var array
+ * @access public
+ */
 	public $fixtures = array(
 		'plugin.nullable.article',
 		'plugin.nullable.author'
 	);
 
-	/**
-	 * Method executed before each test
-	 *
-	 * @access public
-	 */
-	public function startTest() {
+/**
+ * Method executed before each test
+ *
+ * @access public
+ */
+	public function startTest($method) {
 		$this->Article = ClassRegistry::init('Article');
 	}
 
-	/**
-	 * Method executed after each test
-	 *
-	 * @access public
-	 */
-	public function endTest() {
+/**
+ * Method executed after each test
+ *
+ * @access public
+ */
+	public function endTest($method) {
 		unset($this->Article);
 
 		ClassRegistry::flush();
 	}
 
-	/**
-	 * Test the action of creating a new record.
-	 *
-	 * @todo  Test HABTM save
-	 */
+/**
+ * Test the action of creating a new record.
+ *
+ * @todo  Test HABTM save
+ */
 	public function testCreate() {
 		$new_article = array(
 			'Article' => array(
@@ -87,17 +87,17 @@ class NullableBehaviorTest extends CakeTestCase {
 			)
 		));
 
-		# Verify that the article record.
+		// Verify that the article record.
 		$this->assertEqual(null, $article['Article']['author_id']);
 		$this->assertEqual('First Test Article', $article['Article']['title']);
 	}
 
-	/**
-	 * Test editing an existing record.
-	 *
-	 * @todo  Test change to ignored field
-	 * @todo  Test HABTM save
-	 */
+/**
+ * Test editing an existing record.
+ *
+ * @todo  Test change to ignored field
+ * @todo  Test HABTM save
+ */
 	public function testEdit() {
 		$article = $this->Article->find('first', array(
 			'recursive' => -1,
@@ -118,7 +118,7 @@ class NullableBehaviorTest extends CakeTestCase {
 			)
 		));
 
-		# Verify that the article record.
+		// Verify that the article record.
 		$this->assertEqual(null, $article['Article']['author_id']);
 	}
 }

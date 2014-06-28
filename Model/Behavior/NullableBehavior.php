@@ -13,7 +13,7 @@ class NullableBehavior extends ModelBehavior {
  * @param $options array
  * @return boolean Success
  */
-	function beforeSave(Model $Model, $options = array()) {
+	public function beforeSave(Model $Model, $options = array()) {
 		$schema = $Model->schema();
 		foreach ($schema as $field => $metadata) {
 			if (isset($Model->data[$Model->alias][$field]) && !empty($metadata['null'])) {
@@ -22,7 +22,6 @@ class NullableBehavior extends ModelBehavior {
 				}
 			}
 		}
-
 		return true;
 	}
 }
